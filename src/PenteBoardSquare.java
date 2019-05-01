@@ -21,8 +21,8 @@ public class PenteBoardSquare {
 	private Color lightStoneColor = new Color(255,255,240);
 	private Color lightStoneTop  = new Color (250,250,250);
 	
-	boolean isInner = false;
-	
+	private boolean isInner = false;
+	private boolean isWinningSquare = false;
 	
 	public PenteBoardSquare(int x, int y, int w, int h) {
 		
@@ -85,6 +85,7 @@ public class PenteBoardSquare {
 		g.drawLine(xLoc, yLoc + sHeight/2,xLoc +sWidth, yLoc+sHeight/2);
 		g.drawLine(xLoc + sWidth/2, yLoc, xLoc+sWidth/2,yLoc+sHeight);
 	
+		
 		if(sState == PenteGameBoard.BLACKSTONE) {
 			g.setColor(darkStoneColor);
 			g.fillOval(xLoc +4 , yLoc +4, sWidth-8, sHeight-8);
@@ -120,6 +121,16 @@ public class PenteBoardSquare {
 			g.setColor(lightStoneTop);
 			g.fillOval(xLoc +8, yLoc +6, sWidth-12,sHeight-10);
 		}
+		
+		if(isWinningSquare == true) {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(2));
+			
+			g.setColor(Color.RED);
+			g.drawOval(xLoc+2, yLoc+2, sWidth-4, sHeight-4);
+			g2.setStroke(new BasicStroke(1));
+			
+		}
 	
 	
 	
@@ -132,6 +143,39 @@ public class PenteBoardSquare {
 			sState = newState;
 		}
 		 
+	}
+	
+	public int getState() {
+		return sState;
+	}
+	
+	public void setWidth(int newW) {
+		sWidth = newW;
+	}
+	
+	
+	
+	
+	public boolean isClicked(int clickx, int clicky) {
+		boolean didYouClickMe = false;
+		
+		if(xLoc < clickx && clickx < xLoc+sWidth) {
+			
+			if(yLoc < clicky&& clicky < yLoc+sWidth) {
+				
+				didYouClickMe = true;
+				
+				
+			}
+		}
+		
+		
+		return didYouClickMe;
+	}
+	
+	
+	public void setWinningSquare(boolean newState) {
+		isWinningSquare = newState;
 	}
 	
 	
