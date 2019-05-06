@@ -212,7 +212,7 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 		
 		for(int row = 0; row < NUM_SQUARES_SIDE; row++) {
 			for(int col = 0;col< NUM_SQUARES_SIDE;col++) {
-				System.out.println("In fiveRow, looking at ["+row+","+col+"]");
+				//System.out.println("In fiveRow, looking at ["+row+","+col+"]");
 				for(int rL =-1;rL<=1;rL++) {
 					for(int uD = -1;uD<= 1;uD++) {
 						 if(fiveCheck(row,col,whichPlayer,rL, uD)){
@@ -479,8 +479,6 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 		
 		
 		
-		//if(c< NUM_SQUARES_SIDE -4) {
-			
 		
 		
 		if(gameBoard[r+upDown][c+rightLeft *2].getState() == pt * -1 &&
@@ -493,11 +491,9 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 					
 					
 				
-					//System.out.println("IT'S A Horizontal CAPTURE!!!" + rightLeft);
-					//take off board
 					
+					//take off the board
 					
-				
 					if(pt == this.PLAYER1_TURN) {
 						p1Captures++;
 						myScoreBoard.setCaptures(p1Captures,playerTurn);

@@ -1,5 +1,5 @@
 
-public class CMObject {
+public class CMObject implements Comparable<Object>{
 	
 	//Data
 	
@@ -35,6 +35,10 @@ public class CMObject {
 		
 	}
 	
+	public Integer getPriorityInt() {
+		return new Integer(priority);
+	}
+	
 	public int getRow() {
 		return row ;
 		
@@ -45,6 +49,20 @@ public class CMObject {
 	}
 	public int getType() {
 		return moveType ;
+		
+	}
+	
+	public String toString() {
+		return "Move at: [" + row + "," + col + "] priority" + priority ;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		
+		int comparePriority=((CMObject)o).getPriority();
+		return comparePriority-this.priority;
+		
+		
 		
 	}
 	
