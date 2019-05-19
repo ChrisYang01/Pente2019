@@ -53,7 +53,7 @@ public class CMObject implements Comparable<Object>{
 	}
 	
 	public String toString() {
-		return "Move at: [" + row + "," + col + "] priority" + priority ;
+		return "Move at: [" + row + "," + col + "] priority " + priority ;
 	}
 
 	@Override

@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 public class PenteGameBoard extends JPanel implements MouseListener{
 	
 	public static final int EMPTY = 0;
-	public static final int BLACKSTONE = -1;
-	public static final int WHITESTONE = 1; 
+	public static final int BLACKSTONE = 1;
+	public static final int WHITESTONE = -1; 
 	public static final int NUM_SQUARES_SIDE = 19;
 	public static final int INNER_START = 7;
 	public static final int INNER_END = 11;
@@ -32,7 +32,7 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 	private boolean player1IsComputer = false;
 	private boolean player2IsComputer = false;
 	private String p1Name, p2Name;
-	private boolean darkStoneMove2Token = false;
+	private boolean darkStoneMove2Taken = false;
 	
 	private boolean gameOver = false;
 	private ComputerMoveGenerator p1ComputerPlayer = null;
@@ -178,7 +178,7 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 			
 			this.gameBoard[NUM_SQUARES_SIDE/2][NUM_SQUARES_SIDE/2].setState(BLACKSTONE);
 			
-			darkStoneMove2Token = false;
+			darkStoneMove2Taken = false;
 			
 			changePlayerTurn();
 			
@@ -361,11 +361,12 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 		
 		
 		
-		if(playerTurn == this.PLAYER1_TURN && this.player1IsComputer) {
+		if(whichPlayer == this.PLAYER1_TURN && this.player1IsComputer) {
 			int [] nextMove = this.p1ComputerPlayer.getComputerMove();
 			
 			int newR = nextMove[0];
 			int newC = nextMove[1];
+			
 			gameBoard[newR][newC].setState(playerTurn);
 			
 			this.paintImmediately(0,0,bWidth,bHeight);
@@ -417,13 +418,13 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 		boolean dsp = false;
 		
 		
-		if((!darkStoneMove2Token) && (playerTurn == BLACKSTONE))
+		if((!darkStoneMove2Taken) && (playerTurn == BLACKSTONE))
 		{
 			if( (r >= INNER_START && r <= INNER_END) && ( c >= INNER_START && c <= INNER_END))
 			 {
 				dsp = true;
 			}else {
-				darkStoneMove2Token = true;
+				darkStoneMove2Taken = true;
 		}
 		
 		}
@@ -434,31 +435,61 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 		return dsp;
 	}
 	
+	
+	
+	public boolean darkSquareProblemComputerMoveList(int r, int c) {
+		
+		boolean dsp = false;
+		
+		
+		if((!darkStoneMove2Taken) && (playerTurn == BLACKSTONE))
+		{
+			if( (r >= INNER_START && r <= INNER_END) && ( c >= INNER_START && c <= INNER_END))
+			{
+				
+				dsp = true;
+				
+			 } else {
+				 
+				//darkStoneMove2Token = true;
+			 }
+		
+		}
+		
+		
+		
+		
+		return dsp;
+	}
+	
+	
 	//This is a big routine to check all the captures 
 	public void checkForCaptures(int r, int c, int pt) {
 		
-		boolean didCapture;
+		//boolean didCapture;
 		
 		
 		for(int rL =-1;rL<=1;rL++) {
 			for(int uD = -1;uD<= 1;uD++) {
-				didCapture = checkForCaptures(r,c,pt,rL,uD);
+				
+				checkForCaptures(r,c,pt,rL,uD);
+				//didCapture = checkForCaptures(r,c,pt,rL,uD);
 			}
 		}
 		
-		didCapture = checkForCaptures(r,c,pt,0,1);
+		//didCapture = checkForCaptures(r,c,pt,0,1);
 		
-		didCapture = checkForCaptures(r,c,pt,0,-1);
+		//didCapture = checkForCaptures(r,c,pt,0,-1);
 		
 		
 		//Vertical check
-		didCapture = checkForCaptures(r,c,pt,1,0);
-		didCapture = checkForCaptures(r,c,pt,-1,0);
+		//didCapture = checkForCaptures(r,c,pt,1,0);
+		//didCapture = checkForCaptures(r,c,pt,-1,0);
 		
 		//diagonals
 		
-		didCapture = checkForCaptures(r,c,pt,1,-1);
-		didCapture = checkForCaptures(r,c,pt,-1,1);
+		//didCapture = checkForCaptures(r,c,pt,1,-1);
+		//didCapture = checkForCaptures(r,c,pt,-1,1);
 		
 		
 	}
@@ -475,13 +506,13 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 		
 		try {
 		
-		boolean cap = false;
+			boolean cap = false;
 		
 		
 		
 		
 		
-		if(gameBoard[r+upDown][c+rightLeft *2].getState() == pt * -1 &&
+			if(gameBoard[r+upDown][c+rightLeft ].getState() == pt * -1 &&
 				gameBoard[r +(upDown*2)][c+(rightLeft*2)].getState() == pt * -1 &&
 				gameBoard[r + (upDown*3)][c+(rightLeft*3)].getState() == pt) {
 					
@@ -670,6 +701,10 @@ public class PenteGameBoard extends JPanel implements MouseListener{
 	public PenteBoardSquare[] []getBoard() {
 		return gameBoard;
 		
+	}
+	
+	public boolean getdarkStoneMove2Taken() {
+		return darkStoneMove2Taken;
 	}
 
 
